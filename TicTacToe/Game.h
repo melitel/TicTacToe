@@ -12,8 +12,9 @@ private:
 	void update();
 	void initialize();
 
-	enum class player {cross, circle};
+	enum class player {cross, circle};	
 	player m_player{player::cross};
 	Board m_board;
+	Board::state m_game_state;
 };
 
