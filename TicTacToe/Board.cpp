@@ -1,10 +1,8 @@
 #include "Board.h"
 #include <string>
 
-bool Board::make_move(uint32_t move, char value)
+bool Board::make_move(uint32_t index, char value)
 {
-	uint32_t index = move - 1;
-
 	if (m_array[index] == 'O' || m_array[index] == 'X') {
 		return false;
 	}

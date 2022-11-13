@@ -4,7 +4,7 @@
 class Board
 {
 public:
-	bool make_move(uint32_t move, char value);
+	bool make_move(uint32_t index, char value);
 	void initialize();
 	bool get_value_by_index(uint32_t index, char *value) {
 		if (index < m_array.size())
@@ -14,6 +14,9 @@ public:
 		}
 		
 		return false;
+	}
+	char get_value_by_index(uint32_t index) {
+		return m_array[index];
 	}
 	enum class state { ingame, win, draw };
 	state update_state();
