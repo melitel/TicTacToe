@@ -27,7 +27,7 @@ private:
 	bool m_success_move{false};
 
 	//SFML graphics objects
-	sf::RenderWindow m_window{ sf::VideoMode(sf::Vector2u(265, 350)), "My window" };
+	sf::RenderWindow m_window{ sf::VideoMode(265, 350), "My window" };
 	std::array<Game::Cell, 9> m_cells;
 	sf::Text m_result_text;
 	sf::Font m_font;

@@ -1,5 +1,4 @@
 #include "Game.h"
-
 #include <iostream>
 #include <string>
 
@@ -197,7 +196,6 @@ void Game::initialize_sfml()
 			}
 		}
 	}	
-	
 		
 		m_result_text.setFont(m_font); // font is a sf::Font
 
