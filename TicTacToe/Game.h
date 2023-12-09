@@ -20,6 +20,7 @@ private:
 	player m_player{player::cross};
 	Board m_board;
 	Board::state m_game_state;
+
 	struct Cell {
 		sf::RectangleShape rect;
 		sf::Text text;

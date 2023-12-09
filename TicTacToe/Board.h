@@ -1,5 +1,6 @@
 #pragma once
 #include <array>
+#include <vector>
 
 class Board
 {
@@ -15,6 +16,9 @@ public:
 		
 		return false;
 	}
+	std::vector<int> get_win_combo() {
+		return win_combination;
+	}
 	char get_value_by_index(uint32_t index) {
 		return m_array[index];
 	}
@@ -24,6 +28,7 @@ public:
 private:
 	bool is_win(uint32_t index1, uint32_t index2, uint32_t index3);
 	std::array<char, 9> m_array;
+	std::vector<int> win_combination;
 
 };
 

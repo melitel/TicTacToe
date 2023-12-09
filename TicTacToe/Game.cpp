@@ -36,88 +36,46 @@ void Game::run()
 
 void Game::gather_input()
 {
-	if (1) {
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && m_game_state == Board::state::ingame)
-		{
-			// get the local mouse position (relative to a window)
-			sf::Vector2i mouse_position = sf::Mouse::getPosition(m_window); // window is a sf::Window
-			uint32_t index = get_index_by_mouse_position(mouse_position);
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && m_game_state == Board::state::ingame)
+	{
+		// get the local mouse position (relative to a window)
+		sf::Vector2i mouse_position = sf::Mouse::getPosition(m_window); // window is a sf::Window
+		uint32_t index = get_index_by_mouse_position(mouse_position);
 
-			if (index != INVALID_INDEX)
-			{
-				m_success_move = m_board.make_move(index, (m_player == player::circle ? 'O' : 'X'));
-			}
-		}
-	}
-	else {
-		std::cout << "Make your move, " << (m_player == player::circle ? 'O' : 'X') << std::endl;
-		std::string input;
-		std::cin >> input;
-		uint32_t input_number = isNumber(input) ? std::stoi(input) : 0;
-		if (input_number > 0 && input_number <= 9)
+		if (index != INVALID_INDEX)
 		{
-			if (m_board.make_move(input_number, (m_player == player::circle ? 'O' : 'X'))) {
-
-			}
-			else
-			{
-				std::cout << "Make another move" << std::endl;
-			}
+			m_success_move = m_board.make_move(index, (m_player == player::circle ? 'O' : 'X'));
 		}
 	}
 }
 
 void Game::draw()
 {
-	if (1) {
-		// clear the window with black color
-		m_window.clear(sf::Color::Black);
+	// clear the window with black color
+	m_window.clear(sf::Color::Black);
 
-		for (int i = 0; i < m_cells.size(); i++)
-		{
-			m_window.draw(m_cells[i].rect);
-			m_window.draw(m_cells[i].text);
-		}
-
-		m_window.draw(m_result_text);
-		// end the current frame
-		m_window.display();
+	for (int i = 0; i < m_cells.size(); i++)
+	{
+		m_window.draw(m_cells[i].rect);
+		m_window.draw(m_cells[i].text);
 	}
-	else {
-		if (m_game_state == Board::state::draw)
-		{
-			std::cout << "It's a draw" << std::endl;
-		}
-		else if (m_game_state == Board::state::win)
-		{
-			std::cout << (m_player == player::circle ? 'O' : 'X') << " wins" << std::endl;
-		}
-		else
-		{
-			uint32_t index{ 0 };
-			char value;
 
-			while (m_board.get_value_by_index(index++, &value)) {
-
-				std::cout << value;
-				if (index % 3 == 0)
-				{
-					std::cout << '\n';
-				}
-			}
-
-			std::cout << std::endl;
-		}
-	}
+	m_window.draw(m_result_text);
+	// end the current frame
+	m_window.display();
+	
 }
 
 void Game::update()
 {
 	m_game_state = m_board.update_state();
 
+	//show only non digits
 	for (uint32_t i = 0; i < m_cells.size(); i++)
 	{
-		m_cells[i].text.setString(m_board.get_value_by_index(i));
+		if (m_board.get_value_by_index(i) != '.') {
+			m_cells[i].text.setString(m_board.get_value_by_index(i));		
+		}
 	}
 
 	if (m_game_state == Board::state::draw)
@@ -126,6 +84,10 @@ void Game::update()
 	}
 	else if (m_game_state == Board::state::win)
 	{
+		std::vector<int> win_combo = m_board.get_win_combo();
+		for (int id : win_combo) {
+			m_cells[id].rect.setFillColor(sf::Color::Green);
+		}
 		m_result_text.setString(std::string(m_player == player::circle ? "O" : "X") + " Wins");
 	}
 	else
@@ -189,11 +151,12 @@ void Game::initialize_sfml()
 			// set the text style
 			cell.text.setStyle(sf::Text::Bold);
 			cell.text.setPosition(sf::Vector2f(offset_text_i, offset_text_j));
+			
+			//char value;
 
-			char value;
-			if (m_board.get_value_by_index(cell_index, &value)){
-				cell.text.setString(value);
-			}
+			//if (m_board.get_value_by_index(cell_index, &value)){
+			//	cell.text.setString(value);
+			//}
 		}
 	}	
 		
